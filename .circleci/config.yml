@@ -28,7 +28,9 @@ jobs:
       - run: npm run test
       - run: npm run test:e2e
       - setup_remote_docker
-      - docker/check
+      - docker/check:
+          docker-username: DOCKER_LOGIN
+          docker-password: DOCKER_PASSWORD
       - docker/build:
           image: $PRIVATE_REPOSITORY
           tag: backend-app-v1
