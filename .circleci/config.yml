@@ -3,7 +3,17 @@ version: 2.1
 orbs:
   node: circleci/node@5.1.0
   docker: circleci/docker@2.2.0
-  terraform: circleci/terraform@3.2.0
+  # get the orb for AWS
+
+# jobs
+  # CI: build the backend image and push to dockerhub
+    # get the project in the directory
+    # install the packages
+    # run the linter/prettier
+    # run the unit test 
+    # run the e2e test 
+    # build the image
+    # push the image to dockerhub
 jobs:
   build:
     executor: node/default
@@ -27,22 +37,16 @@ jobs:
       - docker/push:
           image: $DOCKER_LOGIN/$PRIVATE_REPOSITORY
           tag: backend-app-v1
-  deploy:
-    executor: terraform/default
-    working_directory: ~/project/backend/terraform
-    steps:
-      - terraform/init:
-          path: .
-      - terraform/validate:
-          path: .
-      - terraform/fmt:
-          path: .
-      - terraform/plan:
-          path: .
-      - terraform/apply:
-          path: .
+ # CD: pull the backend image from dockerhub, run it in a new container on remote server(aws ec2 instance)
+    # let circleci connect to aws ec2 instance, via access key / rsa key
+    # ec2 instance connect to dockerhub
+    # ec2 stop and remove backend project container if exists
+    # ec2 run the container
+    # health check the for backedn app
+
+# workflow
+  # backend jobs: build > deploy (only when main branch has changes)
 workflows:
   backend:
     jobs:
       - build
-      - deploy
